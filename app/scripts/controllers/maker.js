@@ -18,6 +18,7 @@ angular.module('untitledApp')
 			$scope.checkpoints = CheckpointsWrapper.getCheckpoints();
 			$scope.currentCheckpoint = $scope.checkpoints[0];
 
+			//called on marker click
 			$scope.selectCheckpoint = function (checkpoint) {
 				if (MakerState.canSelectMarker()) {
 					//selecting a checkpoint:
@@ -33,6 +34,7 @@ angular.module('untitledApp')
 				}
 			};
 
+			//events for whole google map
 			$scope.mapEvents = {
 				click: function (mapModel, eventName, originalEventArgs) {
 					if (MakerState.canAddMarker()) {
@@ -45,13 +47,21 @@ angular.module('untitledApp')
 							return CheckpointsWrapper.addCheckpoint(arg).getLastCheckpoint();
 						})
 							.withArguments(partialCheckpoint)
-							.undoWithActionAs(CheckpointsWrapper.undoAddCheckpoint, CheckpointsWrapper)
+							.undoWithActionAs(CheckpointsWrapper.undoAddCheckpoint,
+							CheckpointsWrapper)
 							.withActionResultAsArgument();
 
 						$scope.$apply();
 					}
 				}
 			};
+
+			//watch for change of current tool and deselect marker when it happens!
+			$scope.$watch(MakerState.getCurrentToolName, function(newValue, oldValue) {
+				if (newValue && newValue != oldValue) {
+					$scope.currentCheckpoint = null;
+				}
+			});
 
 		}]
 );

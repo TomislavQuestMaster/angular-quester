@@ -13,7 +13,9 @@ angular.module('untitledApp')
 					icon: 'glyphicon-hand-up',
 					hoverText: 'Select',
 					canSelectMarker: true,
-					canAddMarker: false
+					canAddMarker: false,
+					canRemoveMarker: false,
+					canAddPath: false
 				},
 				{
 					name: 'checkpoint',
@@ -21,7 +23,8 @@ angular.module('untitledApp')
 					hoverText: 'Add checkpoint',
 					canSelectMarker: true,
 					canAddMarker: true,
-					canRemoveMarker: true
+					canRemoveMarker: false,
+					canAddPath: false
 
 				},
 				{
@@ -30,7 +33,8 @@ angular.module('untitledApp')
 					hoverText: 'Add path',
 					canSelectMarker: false,
 					canAddMarker: false,
-					canRemoveMarker: true
+					canRemoveMarker: false,
+					canAddPath: true
 
 				},
 				{
@@ -39,7 +43,8 @@ angular.module('untitledApp')
 					hoverText: 'Delete checkpoint or path',
 					canSelectMarker: false,
 					canAddMarker: false,
-					canRemoveMarker: true
+					canRemoveMarker: true,
+					canAddPath: false
 				},
 				{
 					name: 'undo',
@@ -47,7 +52,8 @@ angular.module('untitledApp')
 					hoverText: 'Undo last action',
 					canSelectMarker: false,
 					canAddMarker: false,
-					canRemoveMarker: false
+					canRemoveMarker: false,
+					canAddPath: false
 				},
 				{
 					name: 'redo',
@@ -55,7 +61,8 @@ angular.module('untitledApp')
 					hoverText: 'Redo next action',
 					canSelectMarker: false,
 					canAddMarker: false,
-					canRemoveMarker: false
+					canRemoveMarker: false,
+					canAddPath: false
 				},
 				{
 					name: 'upload',
@@ -63,7 +70,8 @@ angular.module('untitledApp')
 					hoverText: 'Upload quest',
 					canSelectMarker: false,
 					canAddMarker: false,
-					canRemoveMarker: true
+					canRemoveMarker: false,
+					canAddPath: false
 
 				}
 			];

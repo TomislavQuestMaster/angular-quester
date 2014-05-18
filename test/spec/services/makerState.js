@@ -16,6 +16,7 @@ describe('Service: MakerState', function () {
 			name: 'mock tool',
 			canSelectMarker: true,
 			canAddMarker: true,
+			canRemoveMarker: false,
 			canAddPath: true
 		};
 
@@ -24,6 +25,7 @@ describe('Service: MakerState', function () {
 
 		expect(MakerState.canAddMarker()).toBe(tool.canAddMarker);
 		expect(MakerState.canSelectMarker()).toBe(tool.canSelectMarker);
+		expect(MakerState.canRemoveMarker()).toBe(tool.canRemoveMarker);
 		expect(MakerState.canAddPath()).toBe(tool.canAddPath);
 	});
 

@@ -5,6 +5,7 @@ angular.module('untitledApp')
 
 		var currentTool = {};
 
+		//currentTool functionality:
 		this.setCurrentTool = function (tool) {
 			currentTool = tool;
 		};
@@ -25,4 +26,11 @@ angular.module('untitledApp')
 			return currentTool.canRemoveMarker ? true : false;
 		};
 
+		this.canAddPath = function() {
+			return currentTool.canAddPath ? true : false;
+		};
+
+		this.getCurrentToolName = function() {
+			return currentTool.name;
+		};
 	});
