@@ -45,6 +45,8 @@
 
 <div class="row">
 	<ul>
-		<li ng-repeat="checkpoint in checkpoints"><code>[id]:{{checkpoint.id}} | [coords]:{{checkpoint.latitude}},{{checkpoint.longitude}}</code></li>
+		<li ng-repeat="checkpoint in checkpoints">
+			<code ng-repeat="(key, prop) in checkpoint">[{{key}}] : {{prop}}</code>
+		</li>
 	</ul>
 </div>

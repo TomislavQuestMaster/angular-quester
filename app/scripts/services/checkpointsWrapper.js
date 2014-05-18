@@ -39,7 +39,6 @@ angular.module('untitledApp')
 					//asks Checkpoint for valid model constructed from partial checkpoint data
 					var checkpoint = Checkpoint.formPartialData(checkpointData);
 					var recycledId = checkpointIdsStack.pop();
-					console.log('pop from checkpointIdsStack: ', checkpointIdsStack, '|||', recycledId);
 					if (recycledId != undefined) {
 						checkpoint.id = recycledId;
 					}
@@ -52,7 +51,6 @@ angular.module('untitledApp')
 
 			this.undoAddCheckpoint = function(checkpoint) {
 				checkpointIdsStack.push(checkpoint.id);
-				console.log('push to checkpointIdsStack: ', checkpointIdsStack);
 				this.removeCheckpoint(checkpoint);
 			};
 
