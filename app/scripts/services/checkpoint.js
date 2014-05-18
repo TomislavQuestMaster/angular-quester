@@ -3,6 +3,9 @@
 angular.module('untitledApp')
 	.factory('Checkpoint', function () {
 
+		//static variables
+		var counter = 0;
+
 		//constructor function:
 		var Checkpoint = function () {
 
@@ -13,11 +16,17 @@ angular.module('untitledApp')
 			this.title = '';
 			this.description = '';
 
+			this.id = counter++;
+
 		};
 
 		//"instance" methods
 		//can use this
 		Checkpoint.prototype = {
+			equals: function (candidate) {
+				return candidate instanceof Checkpoint && candidate.id === this.id;
+			},
+
 			coordinates: function (lat, lng) {
 				if (!isNaN(lat) && !isNaN(lng)) {
 					//acting like a setter:

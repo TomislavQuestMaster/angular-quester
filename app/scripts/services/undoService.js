@@ -12,7 +12,7 @@ angular.module('untitledApp')
 		};
 
 		this.undo = function () {
-			if (undoStack[current]) {
+			if (this.canUndo()) {
 				var desc = undoStack[current];
 				current--;
 				return desc.undoAction[desc.undoArgs ? 'apply' : 'call'](desc.undoContext,
@@ -25,10 +25,14 @@ angular.module('untitledApp')
 		};
 
 		this.redo = function () {
-			if (undoStack[current + 1]) {
+			if (this.canRedo()) {
 				current++;
 				var desc = undoStack[current];
-				return desc.action[desc.args ? 'apply' : 'call'](desc.context, desc.args);
+				var response = desc.action[desc.args ? 'apply' : 'call'](desc.context, desc.args);
+				if (desc.actionResultAsArgument) {
+					desc.undoArgs = [response];
+				}
+				return response;
 			}
 		};
 
@@ -131,7 +135,7 @@ angular.module('untitledApp')
 				 */
 				withArguments: function () {
 					insertToUndoStack(action, context, args, response, undoAction,
-						undoContext, arguments);
+						undoContext, arguments, false);
 
 					return response;
 				},
@@ -140,7 +144,7 @@ angular.module('untitledApp')
 				 */
 				withoutArguments: function () {
 					insertToUndoStack(action, context, args, response, undoAction,
-						undoContext, null);
+						undoContext, null, false);
 
 					return response;
 				},
@@ -149,7 +153,7 @@ angular.module('untitledApp')
 				 */
 				withActionResultAsArgument: function () {
 					insertToUndoStack(action, context, args, response, undoAction,
-						undoContext, [response]);
+						undoContext, [response], true);
 
 					return response;
 				}
@@ -158,7 +162,7 @@ angular.module('untitledApp')
 		};
 
 		var insertToUndoStack = function (action, context, args, response, undoAction, undoContext,
-		                                  undoArgs) {
+		                                  undoArgs, actionResultAsArgument) {
 			//remove redo part of the stack:
 			undoStack.splice(current + 1, undoStack.length);
 
@@ -168,7 +172,8 @@ angular.module('untitledApp')
 				args: args,
 				undoAction: undoAction,
 				undoContext: undoContext,
-				undoArgs: undoArgs
+				undoArgs: undoArgs,
+				actionResultAsArgument: actionResultAsArgument
 			});
 
 			current++;

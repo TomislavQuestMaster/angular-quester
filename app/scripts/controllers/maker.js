@@ -25,10 +25,11 @@ angular.module('untitledApp')
 				}
 				if (MakerState.canRemoveMarker()) {
 					//deleting a checkpoint:
-					UndoService.performUserActionAs(CheckpointsWrapper.removeCheckpoint, this)
+					UndoService.performUserAction(CheckpointsWrapper.removeCheckpoint)
 						.withArguments(checkpoint)
-						.undoWithActionAs(CheckpointsWrapper.addCheckpoint, this)
+						.undoWithAction(CheckpointsWrapper.addCheckpoint)
 						.withArguments(checkpoint);
+					$scope.currentCheckpoint = null;
 				}
 			};
 
@@ -44,7 +45,7 @@ angular.module('untitledApp')
 							return CheckpointsWrapper.addCheckpoint(arg).getLastCheckpoint();
 						})
 							.withArguments(partialCheckpoint)
-							.undoWithAction(CheckpointsWrapper.removeCheckpoint)
+							.undoWithActionAs(CheckpointsWrapper.undoAddCheckpoint, CheckpointsWrapper)
 							.withActionResultAsArgument();
 
 						$scope.$apply();

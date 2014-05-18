@@ -17,6 +17,26 @@ describe('Service: Checkpoint', function () {
 			}
 		);
 
+		it('should expose equals method form comparison based on id property', function() {
+			var checkpoint1 = new Checkpoint();
+			checkpoint1.setTitle('1st');
+			var checkpoint2 = new Checkpoint();
+			checkpoint2.setTitle('2nd');
+
+			expect(checkpoint1.equals(checkpoint2)).toBeFalsy();
+			expect(checkpoint1.equals({id: checkpoint1.id})).toBeFalsy();
+			checkpoint2.setTitle('1st');
+			expect(checkpoint1.equals(checkpoint2)).toBeFalsy();
+
+			expect(checkpoint1.equals(checkpoint1)).toBeTruthy();
+			var checkpoint3 = new Checkpoint();
+			checkpoint3.id = checkpoint1.id;
+			checkpoint3.setTitle('1st');
+			expect(checkpoint1.equals(checkpoint3)).toBeTruthy();
+			checkpoint3.setTitle('3rd');
+			expect(checkpoint1.equals(checkpoint3)).toBeTruthy();
+		});
+
 		it('should expose coordinates', function () {
 				var checkpoint1 = new Checkpoint();
 

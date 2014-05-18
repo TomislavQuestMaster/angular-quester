@@ -28,7 +28,8 @@ describe('Service: CheckpointsWrapper', function () {
 			latitude: 10,
 			longitude: 15,
 			title: '',
-			description: ''
+			description: '',
+			id: 0
 		};
 
 		CheckpointsWrapper.addCheckpoint(partialCheckpoint);

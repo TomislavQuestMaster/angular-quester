@@ -32,30 +32,6 @@ describe('Service: UndoService', function () {
 
 	});
 
-	it('should register, execute and undo complex fluent built action using', function () {
-
-		var actual = {
-			value: 'banana'
-		};
-		var affirmative = function (arg1, arg2) {
-			this.value += ' ' + arg1 + ' with ' + arg2;
-			return 'fruit ';
-		};
-		var negative = function (arg) {
-			this.value = arg + 'salad';
-		};
-
-		UndoService.performUserActionAs(affirmative, actual)
-			.withArguments('shake', 'an umbrella')
-			.undoWithActionAs(negative, actual)
-			.withActionResultAsArgument();
-		expect(actual.value).toEqual('banana shake with an umbrella');
-
-		UndoService.undo();
-		expect(actual.value).toEqual('fruit salad');
-
-	});
-
 	it('should redo an action', function () {
 
 		var actual = 'Hello World';
@@ -79,6 +55,42 @@ describe('Service: UndoService', function () {
 
 		UndoService.redo();
 		expect(actual).toEqual('');
+
+		UndoService.undo();
+		expect(actual).toEqual('Hello World');
+
+		UndoService.redo();
+		expect(actual).toEqual('');
+	});
+
+	it('should register, execute, undo and redo complex fluent built action', function () {
+
+		var counter = 0;
+		var actual = {
+			value: 'banana'
+		};
+		var affirmative = function (arg1, arg2) {
+			this.value += ' ' + arg1 + ' with ' + arg2;
+			return ['fruit ', 'pineapple '][counter++];
+		};
+		var negative = function (arg) {
+			this.value = arg + 'salad';
+		};
+
+		UndoService.performUserActionAs(affirmative, actual)
+			.withArguments('shake', 'an umbrella')
+			.undoWithActionAs(negative, actual)
+			.withActionResultAsArgument();
+		expect(actual.value).toEqual('banana shake with an umbrella');
+
+		UndoService.undo();
+		expect(actual.value).toEqual('fruit salad');
+
+		UndoService.redo();
+		expect(actual.value).toEqual('fruit salad shake with an umbrella');
+
+		UndoService.undo();
+		expect(actual.value).toEqual('pineapple salad');
 	});
 
 	it('should handle undoStack and current action', function () {

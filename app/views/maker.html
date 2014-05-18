@@ -18,7 +18,7 @@
 		</google-map>
 	</div>
 
-	<div class="col-lg-5">
+	<ng-form name="checkpoint-details" ng-show="currentCheckpoint" class="col-lg-5">
 		<h3>
 			Checkpoint details
 		</h3>
@@ -39,6 +39,12 @@
 			</label>
 		</div>
 
-	</div>
+	</ng-form>
 
+</div>
+
+<div class="row">
+	<ul>
+		<li ng-repeat="checkpoint in checkpoints"><code>[id]:{{checkpoint.id}} | [coords]:{{checkpoint.latitude}},{{checkpoint.longitude}}</code></li>
+	</ul>
 </div>
