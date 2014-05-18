@@ -15,6 +15,7 @@
 			<marker ng-repeat="checkpoint in checkpoints" coords="checkpoint"
 			        click="selectCheckpoint(checkpoint)"
 			        icon="checkpoint == currentCheckpoint ? 'http://google.com/mapfiles/kml/paddle/orange-circle.png' : 'http://google.com/mapfiles/ms/micons/orange-dot.png'"></marker>
+			<polyline ng-repeat="connection in connections" path="connection"></polyline>
 		</google-map>
 	</div>
 
@@ -43,11 +44,20 @@
 
 </div>
 
+<!--DEBUG 'CONSOLE'-->
 <div class="row">
 	<code>[currentCheckpoint] : {{currentCheckpoint}}</code>
+	<br/>
+	<code>[checkpoints]:</code>
 	<ul>
 		<li ng-repeat="checkpoint in checkpoints">
 			<code ng-repeat="(key, prop) in checkpoint">[{{key}}] : {{prop}}</code>
+		</li>
+	</ul>
+	<code>[connections]:</code>
+	<ul>
+		<li ng-repeat="connection in connections">
+			<code>[from] : {{connection[0].id}} [to] : {{connection[1].id}}</code>
 		</li>
 	</ul>
 </div>

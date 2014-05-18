@@ -3,10 +3,10 @@
 angular.module('untitledApp')
 	.service('CheckpointsWrapper', [
 		'Checkpoint',
-		function CheckpointsWrapper(Checkpoint) {
+		'ConnectionsWrapper',
+		function CheckpointsWrapper(Checkpoint, ConnectionsWrapper) {
 
 			var checkpoints = [];
-
 			var checkpointIdsStack = [];
 
 			//searches for checkpoint in array based on checkpoint.equals method
@@ -56,11 +56,16 @@ angular.module('untitledApp')
 
 			this.removeCheckpoint = function (checkpoint) {
 				var index = indexOfCheckpoint(checkpoint);
+				var removedCheckpoint;
 				//check if checkpoint is present in checkpoints array:
 				if (index > -1) {
-					//returns the deleted checkpoint
-					return checkpoints.splice(index, 1)[0];
+					removedCheckpoint =  checkpoints.splice(index, 1)[0];
+					//remove all connections of said checkpoint
+					ConnectionsWrapper.clearConnectionsFor(removedCheckpoint);
+					//return removed checkpoint
+					return removedCheckpoint;
 				}
 			};
 
-		}]);
+		}
+	]);

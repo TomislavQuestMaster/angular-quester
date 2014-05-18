@@ -4,9 +4,10 @@ angular.module('untitledApp')
 	.controller('MakerCtrl', [
 		'$scope',
 		'CheckpointsWrapper',
+		'ConnectionsWrapper',
 		'MakerState',
 		'UndoService',
-		function ($scope, CheckpointsWrapper, MakerState, UndoService) {
+		function ($scope, CheckpointsWrapper, ConnectionsWrapper, MakerState, UndoService) {
 			$scope.map = {
 				center: {
 					latitude: 45,
@@ -17,6 +18,8 @@ angular.module('untitledApp')
 
 			$scope.checkpoints = CheckpointsWrapper.getCheckpoints();
 			$scope.currentCheckpoint = $scope.checkpoints[0];
+
+			$scope.connections = ConnectionsWrapper.getConnections();
 
 			//called on marker click
 			$scope.selectCheckpoint = function (checkpoint) {
@@ -31,6 +34,16 @@ angular.module('untitledApp')
 						.undoWithAction(CheckpointsWrapper.addCheckpoint)
 						.withArguments(checkpoint);
 					$scope.currentCheckpoint = null;
+				}
+				if (MakerState.canAddPath(checkpoint)) {
+					if ($scope.currentCheckpoint == null) {
+						//selecting first checkpoint, then waiting for another to be selected
+						$scope.currentCheckpoint = checkpoint;
+					} else {
+						//one checkpoint is already selected, this is another -> adding connection
+						ConnectionsWrapper.addConnection($scope.currentCheckpoint, checkpoint);
+						$scope.currentCheckpoint = null;
+					}
 				}
 			};
 
